@@ -1,0 +1,68 @@
+@model List<Note>
+
+<h2>Notes</h2>
+
+<style>
+    .note-container {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+        width: calc(33.33% - 20px);
+        height: 150px;
+        float: left;
+        box-sizing: border-box;
+        position: relative;
+        transition: background-color 0.3s;
+    }
+
+    .note-container:hover {
+        background-color: #f8f8f8;
+    }
+
+    .created-at {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font-size: 10px;
+        color: #999;
+    }
+
+    .read-indicator {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: #2ECC71;
+        /* Cor verde para a indicação de lido */
+        font-size: 18px;
+    }
+
+    .clearfix::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+
+<div class="clearfix">
+    @foreach (var note in Model)
+    {
+        <div class="note-container" style="background-color: @RandomColor();">
+            @note.Message<br />
+            <span class="created-at">@note.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</span>
+            @if (note.ReadAt.HasValue)
+            {
+                <span class="read-indicator">&#10003;</span>
+            }
+        </div>
+    }
+</div>
+
+@functions {
+    string RandomColor()
+    {
+        var random = new Random();
+        var color = string.Format("#{0:X6}", random.Next(0x1000000));
+        return color;
+    }
+}
