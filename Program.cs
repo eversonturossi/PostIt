@@ -1,7 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new Serilog.LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Host.UseSerilog((builderContext, configureLogger) => configureLogger.ReadFrom.Configuration(builder.Configuration));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDependencyInjectionMiddleware();
+builder.Services.AddQuartzMiddleware();
 
 var app = builder.Build();
 
