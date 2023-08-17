@@ -22,7 +22,7 @@ public class CheckDBService : ICheckDBService
                     CreatedAt DATETIME NOT NULL,
                     ReadAt DATETIME,
                     UserSent INTEGER NOT NULL);";
-
+        _connectionFactory.Database = "PostIt.db";
         await _connectionFactory.ExecuteAsync(sql, null, null);
     }
 }
